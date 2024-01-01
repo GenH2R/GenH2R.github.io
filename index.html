@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="GenH2R: Learning Generalizable Human-to-Robot Handover via Scalable Simulation, Demonstration, and Imitation">
+  <meta name="keywords" content="Nerfies, D-NeRF, NeRF">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GenH2R: Learning Generalizable Human-to-Robot Handover via Scalable Simulation, Demonstration, and Imitation</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <!-- <link rel="icon" href="./static/images/favicon.svg"> -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<!-- <nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://keunhong.com">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://hypernerf.github.io">
+            HyperNeRF
+          </a>
+          <a class="navbar-item" href="https://nerfies.github.io">
+            Nerfies
+          </a>
+          <a class="navbar-item" href="https://latentfusion.github.io">
+            LatentFusion
+          </a>
+          <a class="navbar-item" href="https://photoshape.github.io">
+            PhotoShape
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav> -->
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title" style="font-size: 35px;">GenH2R: Learning Generalizable Human-to-Robot Handover via Scalable Simulation, Demonstration, and Imitation</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <!-- <a href="https://keunhong.com">Keunhong Park</a><sup>1</sup>,</span> -->
+              Zifan Wang*<sup>1,3</sup>,</span>
+            <span class="author-block">
+              <!-- <a href="https://utkarshsinha.com">Utkarsh Sinha</a><sup>2</sup>,</span> -->
+              Junyu Chen*<sup>1,3</sup>,</span>
+            <span class="author-block">
+              <!-- <a href="https://jonbarron.info">Jonathan T. Barron</a><sup>2</sup>, -->
+              Ziqing Chen<sup>1</sup>,</span>
+            </span>
+            <span class="author-block">
+              Pengwei Xie<sup>1</sup>,</span>
+            </span>
+            <span class="author-block">
+              Rui Chen<sup>1</sup>,</span>
+            </span>
+            <span class="author-block">
+              Li Yi†<sup>1,2,3</sup>,</span>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Tsinghua University,</span>
+            <span class="author-block"><sup>2</sup>Shanghai Artificial Intelligence Laboratory,</span>
+            <span class="author-block"><sup>3</sup>Shanghai Qi Zhi Institute</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <!-- <a href="https://arxiv.org/pdf/2011.12948"
+                   class="external-link button is-normal is-rounded is-dark"> -->
+                  <a class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <!-- <a href="https://arxiv.org/abs/2011.12948"
+                   class="external-link button is-normal is-rounded is-dark"> -->
+                   <a class="external-link button is-normal is-rounded is-dark">
+
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <span class="link-block">
+                <a href="https://www.youtube.com/watch?v=BbphK5QlS1Y"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <!-- <a href="https://github.com/google/nerfies"
+                   class="external-link button is-normal is-rounded is-dark"> -->
+                   <a class="external-link button is-normal is-rounded is-dark">
+
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <span class="link-block">
+                <!-- <a href="https://github.com/google/nerfies/releases/tag/0.1"
+                   class="external-link button is-normal is-rounded is-dark"> -->
+                   <a class="external-link button is-normal is-rounded is-dark">
+
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- <section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <video id="teaser" autoplay muted loop playsinline height="100%">
+        <source src="./static/videos/teaser.mp4"
+                type="video/mp4">
+      </video>
+      <h2 class="subtitle has-text-centered">
+        <span class="dnerf">Nerfies</span> turns selfie videos from your phone into
+        free-viewpoint
+        portraits.
+      </h2>
+    </div>
+  </div>
+</section> -->
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body" style="display: flex; justify-content: space-around;">
+      <!-- 第一个视频 -->
+      <div style="margin-right: 20px;">
+        <video id="teaser1" autoplay muted loop playsinline height="100%" playbackRate="16.0">
+          <source src="./static/videos/s0_simultaneous_teaser.mp4" type="video/mp4">
+        </video>
+        <h2 class="subtitle has-text-centered" style="font-size: 15px;">
+          Previous <a rel="license"
+          href="https://handover-sim.github.io/">Handoversim</a><br>
+          Small-scale Real-world Dataset (1K)
+        </h2>
+      </div>
+
+      <!-- 第二个视频 -->
+      <div style="margin-right: 20px;">
+        <video id="teaser2" autoplay muted loop playsinline height="100%" playbackRate="3.0">
+          <source src="./static/videos/t450_teaser.mp4" type="video/mp4">
+        </video>
+        <h2 class="subtitle has-text-centered" style="font-size: 15px;">
+          Our GenH2R<br>
+          Large-scale Synthetic Dataset (1M)
+        </h2>
+      </div>
+
+      <!-- 第三个视频 -->
+      <div>
+        <video id="teaser3" autoplay muted loop playsinline height="100%" playbackRate="3.0">
+          <source src="./static/videos/real_world_teaser.mp4" type="video/mp4">
+        </video>
+        <h2 class="subtitle has-text-centered" style="font-size: 15px;">
+          Sim-to-Real Transfer
+        </h2>
+      </div>
+    
+      <script>
+        // 使用 JavaScript 设置播放速度
+        document.getElementById('teaser1').playbackRate = 2.0;
+        document.getElementById('teaser2').playbackRate = 2.0;
+        document.getElementById('teaser3').playbackRate = 2.0;
+      </script>
+
+</section>
+
+<!-- <div class="container is-max-desktop" style="margin-bottom: 5px"> -->
+  <img class="arrow" style="position: relative; top: 50%;left: 50%; transform: translate(-60%, -60%) scale(0.6);"  src="static/images/arrow.png">
+<!-- </div> -->
+
+
+<section class="hero is-light is-small">
+  <div class="hero-body" style="margin-top: -80px;">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-steve">
+          <video poster="" id="data1" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/scene50000009.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-chair-tp">
+          <video poster="" id="data2" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/scene50000069.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-shiba">
+          <video poster="" id="data3" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/scene50000349.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-fullbody">
+          <video poster="" id="data4" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/scene50000349.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-blueshirt">
+          <video poster="" id="data5" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/scene50000479.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-mask">
+          <video poster="" id="data6" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/scene50000539.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-coffee">
+          <video poster="" id="data7" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/scene50000819.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-toby">
+          <video poster="" id="data8" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/scene50002019.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        
+        <div class="item item-toby">
+          <video poster="" id="data9" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/scene50018269.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <div class="item item-toby">
+          <video poster="" id="data10" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/scene50027347.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <div class="item item-toby">
+          <video poster="" id="data11" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/scene50027877.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <div class="item item-toby">
+          <video poster="" id="data12" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/scene50028667.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <script>
+          // 使用 JavaScript 设置播放速度
+          document.getElementById('data1').playbackRate = 2.0;
+          document.getElementById('data2').playbackRate = 2.0;
+          document.getElementById('data3').playbackRate = 2.0;
+          document.getElementById('data4').playbackRate = 2.0;
+          document.getElementById('data5').playbackRate = 2.0;
+          document.getElementById('data6').playbackRate = 2.0;
+          document.getElementById('data7').playbackRate = 2.0;
+          document.getElementById('data8').playbackRate = 2.0;
+          document.getElementById('data9').playbackRate = 2.0;
+          document.getElementById('data10').playbackRate = 2.0;
+          document.getElementById('data11').playbackRate = 2.0;
+          document.getElementById('data12').playbackRate = 2.0;
+        </script>
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            This paper presents <b>GenH2R</b>, a framework for learning generalizable vision-based human-to-robot (H2R) handover skills. The goal is to equip robots with the ability to reliably receive objects with unseen geometry handed over by humans in various complex trajectories.
+          </p>
+          <p>
+            We acquire such generalizability by learning H2R handover at scale with a comprehensive solution including <b>procedural simulation assets creation, automated demonstration generation, and effective imitation learning</b>. We leverage large-scale 3D model repositories, dexterous grasp generation methods, and curve-based 3D animation to create an H2R handover simulation environment named GenH2R-Sim, surpassing the number of scenes in existing simulators by three orders of magnitude. We further introduce a distillation-friendly demonstration generation method that automatically generates a million high-quality demonstrations suitable for learning. Finally, we present a 4D imitation learning method augmented by a future forecasting objective to distill demonstrations into a visuo-motor handover policy.
+          </p>
+          <p>
+            Experimental evaluations in both simulators and the real world demonstrate significant improvements (at least +10% success rate) over baselines in all cases.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!-- Paper video. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/BbphK5QlS1Y?rel=0&amp;showinfo=0"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+    <!--/ Paper video. -->
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!--/ Matting. -->
+
+    <!-- Animation. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Method</h2>
+
+        <!-- Interpolating. -->
+        <h3 class="title is-4">GenH2R-Sim</h3>
+        <div class="content has-text-justified">
+          <p>
+            Previous simulator only captures
+real-world human grasping objects in a limited manner (only 1000 scenes with 20 distinct objects). We introduce a new environment, GenH2R-Sim, to overcome these deficiencies and
+facilitate generalizable handovers.
+          </p>
+          <p>
+            <b>Grasping poses:</b> we use DexGraspNet to generate a substantial dataset of human hand grasp poses. We utilize this method to generate approximately <b><span style="color: purple;">1,000,000 grasp poses</span></b> for <b><span style="color: purple;">3,266 different objects</span></b> 208
+            sourced from Shapenet.
+          </p>
+          <p>
+          <b>Hand-object moving trajectories:</b> We use multiple Bézier curves to model different stages of the motion, and link the ends of these curves to create a seamless track.
+          </p>
+        </div>
+        <img src="./static/images/GenH2R-Sim.png"
+                 class="interpolation-image"
+                 alt="GenH2R-Sim."/>
+
+        <!-- <div class="columns is-vcentered interpolation-panel">
+          <div class="column is-3 has-text-centered">
+            <img src="./static/images/interpolate_start.jpg"
+                 class="interpolation-image"
+                 alt="Interpolate start reference image."/>
+            <p>Start Frame</p>
+          </div>
+          <div class="column interpolation-video-column">
+            <div id="interpolation-image-wrapper">
+              Loading...
+            </div>
+            <input class="slider is-fullwidth is-large is-info"
+                   id="interpolation-slider"
+                   step="1" min="0" max="100" value="0" type="range">
+          </div>
+          <div class="column is-3 has-text-centered">
+            <img src="./static/images/interpolate_end.jpg"
+                 class="interpolation-image"
+                 alt="Interpolation end reference image."/>
+            <p class="is-bold">End Frame</p>
+          </div>
+        </div> -->
+        <br/>
+        <!--/ Interpolating. -->
+
+        <!-- Re-rendering. -->
+        <h3 class="title is-4">Generating Demonstrations for Distillation</h3>
+        <div class="content has-text-justified">
+          <p>
+            To scale up robot demonstrations, we propose to automatically generate demonstrations with grasp and motion planning using privileged human motion and object state information.
+          </p>
+        <p>
+            We address a key question in <b><span style="color: purple;">learning visuomotor policy: how to efficiently generate robot demostrations that incorporate paired 
+              vision-action data from successful task experiences.</span></b>
+          </p>
+          <p>
+            We identify the vision-action correlation between visual observations and planned actions as the crucial factor influencing distillability.
+            We present a <b>distillation-friendly demonstration generation</b> method that sparsely samples handover animations for landmark states
+             and periodically replans grasp and motion based on privileged future landmarks.
+          </p>
+        </div>
+        <div class="content has-text-centered" style="margin-bottom: 60px;">
+          <video id="replay-video"
+          autoplay muted loop playsinline
+                 width="46%">
+            <source src="./static/videos/demonstration1.mp4"
+                    type="video/mp4">
+          </video>
+
+          <video id="replay-video"
+          autoplay muted loop playsinline
+                 width="46%">
+            <source src="./static/videos/demonstration2.mp4"
+                    type="video/mp4">
+          </video>
+
+        </div>
+
+        <h3 class="title is-4">Forecast-Aided 4D Imitation Learning</h3>
+        <div class="content has-text-justified" >
+          <p>
+            To distill the above demonstrations into a visuomotor policy, we utilize point cloud input for its richer geometric information and smaller sim-vs-real gap compared to images.
+          <p>
+          </p>
+            We propose <b>a 4D imitation learning method</b> that factors the sequential point cloud observations into geometry and motion parts, facilitating policy learning by better
+revealing the current scene state.
+<p>
+</p>
+Furthermore, the imitation objective is augmented by a forecasting objective which predicts the future motion of the handover object.
+vision-action correlation.
+          </p>
+        </div>
+        
+        <img src="./static/images/pointnet++.png"
+                 class="interpolation-image"
+                 alt="pointnet++"
+                 style="margin-top: -20px; margin-bottom: 50px;"/>
+
+        <!--/ Re-rendering. -->
+
+      </div>
+    </div>
+    <!--/ Animation. -->
+
+
+
+
+<div class="columns is-centered">
+<div class="column is-full-width">
+  <h2 class="title is-3">Experiments</h2>
+
+  <!-- Interpolating. -->
+  <h3 class="title is-4">Simulation Experiments</h3>
+
+  <div style="margin-bottom: -10px;">
+    <p><b>In the s0(sequential) benchmark:</b></p>
+    <p> Our model can find better grasps, especially for challenging objects.
+    </p>
+  
+    </div>
+  
+    <div class="columns is-centered">
+  
+      <!-- Visual Effects. -->
+      <div class="column">
+        <div class="content">
+          <!-- <h2 class="title is-3">Visual Effects</h2> -->
+          <video id="simulation_experiments_s0_sequential_baseline" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/simulation_experiments_s0_sequential_baseline.mp4"
+                    type="video/mp4">
+          </video>
+          <p>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            Baseline(<a rel="license"
+          href="https://handover-sim2real.github.io/">HandoverSim2real</a>)
+            &nbsp;-&nbsp; success rate(%):  75.23
+          </p>
+  
+        </div>
+      </div>
+      <!--/ Visual Effects. -->
+  
+      <!-- Matting. -->
+      <div class="column">
+        <!-- <h2 class="title is-3">Matting</h2> -->
+        <div class="columns is-centered">
+          <div class="column content">
+            <video id="simulation_experiments_s0_sequential_ours" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/simulation_experiments_s0_sequential_ours.mp4"
+                      type="video/mp4">
+            </video>
+            <p>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              Ours &nbsp;-&nbsp; success rate(%):  <b>87.27</b>
+            </p>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+
+
+  <div style="margin-bottom: -10px;">
+  <p><b>In the s0(simultaneous) benchmark:</b></p>
+  <p> Our model can generalize to unseen real-world objects with diverse geometries.</p>
+
+  </div>
+
+  <div class="columns is-centered">
+
+    <!-- Visual Effects. -->
+    <div class="column">
+      <div class="content">
+        <!-- <h2 class="title is-3">Visual Effects</h2> -->
+        <video id="simulation_experiments_s0_simultaneous_baseline" autoplay controls muted loop playsinline height="100%">
+          <source src="./static/videos/simulation_experiments_s0_simultaneous_baseline.mp4"
+                  type="video/mp4">
+        </video>
+        <p>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          Baseline(HandoverSim2real) &nbsp;-&nbsp; success rate(%):  68.75
+        </p>
+
+      </div>
+    </div>
+    <!--/ Visual Effects. -->
+
+    <!-- Matting. -->
+    <div class="column">
+      <!-- <h2 class="title is-3">Matting</h2> -->
+      <div class="columns is-centered">
+        <div class="column content">
+          <video id="simulation_experiments_s0_simultaneous_ours" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/simulation_experiments_s0_simultaneous_ours.mp4"
+                    type="video/mp4">
+          </video>
+          <p>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            Ours &nbsp;-&nbsp; success rate(%):  <b>84.03</b>
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div style="margin-bottom: -10px;">
+    <p><b>In the t0 benchmark:</b></p>
+    <p> Our model predicts the future pose of the object to enable more reasonable approaching trajectories.    </p>
+  
+    </div>
+
+  <div class="columns is-centered">
+
+    <!-- Visual Effects. -->
+    <div class="column">
+      <div class="content">
+        <!-- <h2 class="title is-3">Visual Effects</h2> -->
+        <video id="simulation_experiments_t0_simultaneous_baseline" autoplay controls muted loop playsinline height="100%">
+          <source src="./static/videos/simulation_experiments_t0_simultaneous_baseline.mp4"
+                  type="video/mp4">
+        </video>
+        <p>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          Baseline(HandoverSim2real) &nbsp;-&nbsp; success rate(%):  29.17
+        </p>
+
+      </div>
+    </div>
+    <!--/ Visual Effects. -->
+
+    <!-- Matting. -->
+    <div class="column">
+      <!-- <h2 class="title is-3">Matting</h2> -->
+      <div class="columns is-centered">
+        <div class="column content">
+          <video id="simulation_experiments_t0_simultaneous_ours" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/simulation_experiments_t0_simultaneous_ours.mp4"
+                    type="video/mp4">
+          </video>
+          <p>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            Ours &nbsp;-&nbsp; success rate(%):  <b>40.43</b>
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div style="margin-bottom: -10px;">
+    <p><b>In the t1 benchmark:</b></p>
+    <p> Our model can generalize to unseen real-world objects with diverse geometries.    </p>
+  
+    </div>
+
+  <div class="columns is-centered">
+
+    <!-- Visual Effects. -->
+    <div class="column">
+      <div class="content">
+        <!-- <h2 class="title is-3">Visual Effects</h2> -->
+        <video id="simulation_experiments_t1_simultaneous_baseline" autoplay controls muted loop playsinline height="100%">
+          <source src="./static/videos/simulation_experiments_t1_simultaneous_baseline.mp4"
+                  type="video/mp4">
+        </video>
+        <p>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          Baseline(HandoverSim2real) &nbsp;-&nbsp; success rate(%):  52.4
+        </p>
+
+      </div>
+    </div>
+    <!--/ Visual Effects. -->
+
+    <!-- Matting. -->
+    <div class="column">
+      <!-- <h2 class="title is-3">Matting</h2> -->
+      <div class="columns is-centered">
+        <div class="column content">
+          <video id="simulation_experiments_t1_simultaneous_ours" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/simulation_experiments_t1_simultaneous_ours.mp4"
+                    type="video/mp4">
+          </video>
+          <p>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            Ours &nbsp;-&nbsp; success rate(%):  <b>62.4</b>
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 使用 JavaScript 设置播放速度
+    document.getElementById('simulation_experiments_s0_sequential_baseline').playbackRate = 2.0;
+    document.getElementById('simulation_experiments_s0_sequential_ours').playbackRate = 2.0;
+    document.getElementById('simulation_experiments_s0_simultaneous_baseline').playbackRate = 2.0;
+    document.getElementById('simulation_experiments_s0_simultaneous_ours').playbackRate = 2.0;
+    document.getElementById('simulation_experiments_t0_simultaneous_baseline').playbackRate = 2.0;
+    document.getElementById('simulation_experiments_t0_simultaneous_ours').playbackRate = 2.0;
+    document.getElementById('simulation_experiments_t1_simultaneous_baseline').playbackRate = 2.0;
+    document.getElementById('simulation_experiments_t1_simultaneous_ours').playbackRate = 2.0;
+  </script>
+
+  <h3 class="title is-4">Real-world Experiments</h3>
+
+  <div style="margin-bottom: 20px;">
+    <!-- <p><b>In the s0(sequentiual) benchmark:</b></p> -->
+    <p> For more complex trajectories including rotations, our model demonstrates robustness compared to baseline methods.
+    </p>
+  
+    </div>
+  
+    <div class="columns is-centered">
+  
+      <!-- Visual Effects. -->
+      <div class="column">
+        <div class="content">
+          <!-- <h2 class="title is-3">Visual Effects</h2> -->
+          <video id="More_trajectory_handoversim2real" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/More_trajectory_handoversim2real.mp4"
+                    type="video/mp4">
+          </video>
+          <p>
+            &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+            Baseline (HandoverSim2real)
+          </p>
+  
+        </div>
+      </div>
+      <!--/ Visual Effects. -->
+  
+      <!-- Matting. -->
+      <div class="column">
+        <!-- <h2 class="title is-3">Matting</h2> -->
+        <div class="columns is-centered">
+          <div class="column content">
+            <video id="More_trajectory_ours" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/More_trajectory_ours.mp4"
+                      type="video/mp4">
+            </video>
+            <p>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              Ours
+            </p>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+
+    
+    <script>
+      // 使用 JavaScript 设置播放速度
+      document.getElementById('More_trajectory_handoversim2real').playbackRate = 2.0;
+      document.getElementById('More_trajectory_ours').playbackRate = 2.0;
+      
+    </script>
+
+<div style="margin-bottom: 20px;">
+  <!-- <p><b>In the s0(sequentiual) benchmark:</b></p> -->
+  <p> For novel objects with complex trajectories, our model exhibits greater generalizability.
+  </p>
+
+  </div>
+
+  <div class="columns is-centered">
+
+    <!-- Visual Effects. -->
+    <div class="column">
+      <div class="content">
+        <!-- <h2 class="title is-3">Visual Effects</h2> -->
+        <video id="More_trajectory_geometry_handoversim2real" autoplay controls muted loop playsinline height="100%">
+          <source src="./static/videos/More_trajectory_geometry_handoversim2real.mp4"
+                  type="video/mp4">
+        </video>
+        <p>
+          &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+          Baseline (HandoverSim2real)
+        </p>
+
+      </div>
+    </div>
+    <!--/ Visual Effects. -->
+
+    <!-- Matting. -->
+    <div class="column">
+      <!-- <h2 class="title is-3">Matting</h2> -->
+      <div class="columns is-centered">
+        <div class="column content">
+          <video id="More_trajectory_geometry_ours" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/More_trajectory_geometry_ours.mp4"
+                    type="video/mp4">
+          </video>
+          <p>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            Ours
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  
+  <script>
+    // 使用 JavaScript 设置播放速度
+    document.getElementById('More_trajectory_geometry_handoversim2real').playbackRate = 2.0;
+    document.getElementById('More_trajectory_geometry_ours').playbackRate = 2.0;
+    
+  </script>
+
+
+    <!-- Concurrent Work. -->
+    <!-- <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Related Links</h2>
+
+        <div class="content has-text-justified">
+          <p>
+            There's a lot of excellent work that was introduced around the same time as ours.
+          </p>
+          <p>
+            <a href="https://arxiv.org/abs/2104.09125">Progressive Encoding for Neural Optimization</a> introduces an idea similar to our windowed position encoding for coarse-to-fine optimization.
+          </p>
+          <p>
+            <a href="https://www.albertpumarola.com/research/D-NeRF/index.html">D-NeRF</a> and <a href="https://gvv.mpi-inf.mpg.de/projects/nonrigid_nerf/">NR-NeRF</a>
+            both use deformation fields to model non-rigid scenes.
+          </p>
+          <p>
+            Some works model videos with a NeRF by directly modulating the density, such as <a href="https://video-nerf.github.io/">Video-NeRF</a>, <a href="https://www.cs.cornell.edu/~zl548/NSFF/">NSFF</a>, and <a href="https://neural-3d-video.github.io/">DyNeRF</a>
+          </p>
+          <p>
+            There are probably many more by the time you are reading this. Check out <a href="https://dellaert.github.io/NeRF/">Frank Dellart's survey on recent NeRF papers</a>, and <a href="https://github.com/yenchenlin/awesome-NeRF">Yen-Chen Lin's curated list of NeRF papers</a>.
+          </p>
+        </div>
+      </div>
+    </div> -->
+    <!--/ Concurrent Work. -->
+
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <!-- <pre><code>@article{park2021nerfies,
+  author    = {Park, Keunhong and Sinha, Utkarsh and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Seitz, Steven M. and Martin-Brualla, Ricardo},
+  title     = {Nerfies: Deformable Neural Radiance Fields},
+  journal   = {ICCV},
+  year      = {2021},
+}</code></pre> -->
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="./static/images/GenH2R.pdf">
+
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <!-- <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled> -->
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            The template is borrowed from <a rel="license"
+            href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
