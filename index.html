@@ -121,9 +121,9 @@
             <div class="publication-links">
               <!-- PDF Link. -->
               <span class="link-block">
-                <!-- <a href="https://arxiv.org/pdf/2011.12948"
-                   class="external-link button is-normal is-rounded is-dark"> -->
-                  <a class="external-link button is-normal is-rounded is-dark">
+                <a href="./static/GenH2R.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <!-- <a class="external-link button is-normal is-rounded is-dark"> -->
                   <span class="icon">
                       <i class="fas fa-file-pdf"></i>
                   </span>
@@ -160,7 +160,7 @@
                   <span class="icon">
                       <i class="fab fa-github"></i>
                   </span>
-                  <span>Code</span>
+                  <span>Code (Coming Soon)</span>
                   </a>
               </span>
               <!-- Dataset Link. -->
@@ -172,7 +172,7 @@
                   <span class="icon">
                       <i class="far fa-images"></i>
                   </span>
-                  <span>Data</span>
+                  <span>Data (Coming Soon)</span>
                   </a>
             </div>
 
@@ -199,10 +199,23 @@
   </div>
 </section> -->
 
-<section class="hero teaser">
+<div class="content has-text-centered" style="margin-bottom: 160px;">
+          
+  <!-- <div style="width: 1px;"></div>  -->
+
+  <video id="replay-video"
+  autoplay muted loop playsinline
+         width="50%">
+    <source src="./static/videos/1_overview_1.mp4"
+            type="video/mp4">
+  </video>
+</div>
+
+
+<!-- <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body" style="display: flex; justify-content: space-around;">
-      <!-- 第一个视频 -->
+     
       <div style="margin-right: 20px;">
         <video id="teaser1" autoplay muted loop playsinline height="100%" playbackRate="16.0">
           <source src="./static/videos/s0_simultaneous_teaser.mp4" type="video/mp4">
@@ -214,7 +227,7 @@
         </h2>
       </div>
 
-      <!-- 第二个视频 -->
+     
       <div style="margin-right: 20px;">
         <video id="teaser2" autoplay muted loop playsinline height="100%" playbackRate="3.0">
           <source src="./static/videos/t450_teaser.mp4" type="video/mp4">
@@ -225,7 +238,7 @@
         </h2>
       </div>
 
-      <!-- 第三个视频 -->
+    
       <div>
         <video id="teaser3" autoplay muted loop playsinline height="100%" playbackRate="3.0">
           <source src="./static/videos/real_world_teaser.mp4" type="video/mp4">
@@ -236,7 +249,7 @@
       </div>
     
       <script>
-        // 使用 JavaScript 设置播放速度
+       
         document.getElementById('teaser1').playbackRate = 2.0;
         document.getElementById('teaser2').playbackRate = 2.0;
         document.getElementById('teaser3').playbackRate = 2.0;
@@ -244,9 +257,9 @@
 
 </section>
 
-<!-- <div class="container is-max-desktop" style="margin-bottom: 5px"> -->
+<div class="container is-max-desktop" style="margin-bottom: 5px">
   <img class="arrow" style="position: relative; top: 50%;left: 50%; transform: translate(-60%, -60%) scale(0.6);"  src="static/images/arrow.png">
-<!-- </div> -->
+</div> -->
 
 
 <section class="hero is-light is-small">
@@ -255,20 +268,25 @@
       <div id="results-carousel" class="carousel results-carousel">
         <div class="item item-steve">
           <video poster="" id="data1" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/scene50000009.mp4"
+            <!-- <source src="./static/videos/scene50000009.mp4"
+                    type="video/mp4"> -->
+                    <source src="./static/videos/real_2.mp4"
                     type="video/mp4">
           </video>
         </div>
         <div class="item item-chair-tp">
-          <video poster="" id="data2" autoplay controls muted loop playsinline height="100%">
+          <video poster="" id="data2"  controls muted loop playsinline height="100%">
             <source src="./static/videos/scene50000069.mp4"
                     type="video/mp4">
           </video>
         </div>
         <div class="item item-shiba">
           <video poster="" id="data3" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/scene50000349.mp4"
+            <!-- <source src="./static/videos/scene50000349.mp4"
+                    type="video/mp4"> -->
+                    <source src="./static/videos/real_4.mp4"
                     type="video/mp4">
+
           </video>
         </div>
         <div class="item item-fullbody">
@@ -279,7 +297,9 @@
         </div>
         <div class="item item-blueshirt">
           <video poster="" id="data5" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/scene50000479.mp4"
+            <!-- <source src="./static/videos/scene50000479.mp4"
+                    type="video/mp4"> -->
+                    <source src="./static/videos/real_3.mp4"
                     type="video/mp4">
           </video>
         </div>
@@ -291,7 +311,9 @@
         </div>
         <div class="item item-coffee">
           <video poster="" id="data7" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/scene50000819.mp4"
+            <!-- <source src="./static/videos/scene50000819.mp4"
+                    type="video/mp4"> -->
+                    <source src="./static/videos/real_1.mp4"
                     type="video/mp4">
           </video>
         </div>
@@ -304,8 +326,11 @@
         
         <div class="item item-toby">
           <video poster="" id="data9" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/scene50018269.mp4"
+            <!-- <source src="./static/videos/scene50018269.mp4"
+                    type="video/mp4"> -->
+                    <source src="./static/videos/real_5.mp4"
                     type="video/mp4">
+
           </video>
         </div>
 
@@ -318,8 +343,11 @@
 
         <div class="item item-toby">
           <video poster="" id="data11" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/scene50027877.mp4"
+            <!-- <source src="./static/videos/scene50027877.mp4"
+                    type="video/mp4"> -->
+                    <source src="./static/videos/real_6.mp4"
                     type="video/mp4">
+
           </video>
         </div>
 
@@ -452,13 +480,24 @@ facilitate generalizable handovers.
             We address a key question in <b><span style="color: purple;">learning visuomotor policy: how to efficiently generate robot demostrations that incorporate paired 
               vision-action data from successful task experiences.</span></b>
           </p>
+
+          <div class="content has-text-centered" style="margin-bottom: 60px;">
+            <video id="replay-video"
+            autoplay muted loop playsinline
+                   width="50%">
+              <source src="./static/videos/3_demonstration_1.mp4"
+                      type="video/mp4">
+            </video>
+            
+          </div>
+
           <p>
             We identify the vision-action correlation between visual observations and planned actions as the crucial factor influencing distillability.
             We present a <b>distillation-friendly demonstration generation</b> method that sparsely samples handover animations for landmark states
              and periodically replans grasp and motion based on privileged future landmarks.
           </p>
         </div>
-        <div class="content has-text-centered" style="margin-bottom: 60px;">
+        <!-- <div class="content has-text-centered" style="margin-bottom: 60px;">
           <video id="replay-video"
           autoplay muted loop playsinline
                  width="46%">
@@ -473,6 +512,17 @@ facilitate generalizable handovers.
                     type="video/mp4">
           </video>
 
+        </div> -->
+        <div class="content has-text-centered" style="margin-bottom: 60px;">
+          
+          <!-- <div style="width: 1px;"></div>  -->
+
+          <video id="replay-video"
+          autoplay muted loop playsinline
+                 width="50%">
+            <source src="./static/videos/3_demonstration_3.mp4"
+                    type="video/mp4">
+          </video>
         </div>
 
         <h3 class="title is-4">Forecast-Aided 4D Imitation Learning</h3>
@@ -561,7 +611,7 @@ vision-action correlation.
 
   <div style="margin-bottom: -10px;">
   <p><b>In the s0(simultaneous) benchmark:</b></p>
-  <p> Our model can generalize to unseen real-world objects with diverse geometries.</p>
+  <p> Our model adjusts both the distance from the object and the pose to avoid frequent pose adjustments when the gripper is close to the object.</p>
 
   </div>
 
